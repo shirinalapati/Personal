@@ -1,0 +1,192 @@
+import java.util.*;
+
+public class NFLDraftGame {
+
+    static class Prospect {
+        String name;
+        String position;
+        String college;
+        int rating;
+
+        Prospect(String name, String position, String college, int rating) {
+            this.name = name;
+            this.position = position;
+            this.college = college;
+            this.rating = rating;
+        }
+    }
+
+    static class Team {
+        String name;
+        String positionNeed;
+        int pickNumber;
+        Prospect draftedProspect;
+
+        Team(String name, String positionNeed, int pickNumber) {
+            this.name = name;
+            this.positionNeed = positionNeed;
+            this.pickNumber = pickNumber;
+        }
+    }
+
+    static List<Prospect> prospects;
+    static List<Team> teams;
+
+    public static void main(String[] args) {
+        initializeProspects();
+        initializeTeams();
+        draft();
+    }
+
+    static void initializeProspects() {
+        prospects = new ArrayList<>();
+        prospects.add(new Prospect("Trevor Lawrence", "Quarterback", "Clemson", 1));
+        prospects.add(new Prospect("Zach Wilson", "Quarterback", "BYU", 2));
+        prospects.add(new Prospect("Justin Fields", "Quarterback", "Ohio State", 3));
+        prospects.add(new Prospect("Trey Lance", "Quarterback", "North Dakota State", 4));
+        prospects.add(new Prospect("Kyle Pitts", "Tight End", "Florida", 5));
+        prospects.add(new Prospect("Penei Sewell", "Offensive Tackle", "Oregon", 6));
+        prospects.add(new Prospect("Ja'Marr Chase", "Wide Receiver", "LSU", 7));
+        prospects.add(new Prospect("Jaylen Waddle", "Wide Receiver", "Alabama", 8));
+        prospects.add(new Prospect("DeVonta Smith", "Wide Receiver", "Alabama", 9));
+        prospects.add(new Prospect("Patrick Surtain II", "Cornerback", "Alabama", 10));
+        prospects.add(new Prospect("Jaycee Horn", "Cornerback", "South Carolina", 11));
+        prospects.add(new Prospect("Micah Parsons", "Linebacker", "Penn State", 12));
+        prospects.add(new Prospect("Rashawn Slater", "Offensive Tackle", "Northwestern", 13));
+        prospects.add(new Prospect("Alijah Vera-Tucker", "Offensive Guard", "USC", 14));
+        prospects.add(new Prospect("Kwity Paye", "Defensive End", "Michigan", 15));
+        prospects.add(new Prospect("Gregory Rousseau", "Defensive End", "Miami (FL)", 16));
+        prospects.add(new Prospect("Christian Darrisaw", "Offensive Tackle", "Virginia Tech", 17));
+        prospects.add(new Prospect("Teven Jenkins", "Offensive Tackle", "Oklahoma State", 18));
+        prospects.add(new Prospect("Jayson Oweh", "Defensive End", "Penn State", 19));
+        prospects.add(new Prospect("Caleb Farley", "Cornerback", "Virginia Tech", 20));
+        prospects.add(new Prospect("Kadarius Toney", "Wide Receiver", "Florida", 21));
+        prospects.add(new Prospect("Jaelan Phillips", "Defensive End", "Miami (FL)", 22));
+        prospects.add(new Prospect("Trevon Moehrig", "Safety", "TCU", 23));
+        prospects.add(new Prospect("Azeez Ojulari", "Linebacker", "Georgia", 24));
+        prospects.add(new Prospect("Najee Harris", "Running Back", "Alabama", 25));
+        prospects.add(new Prospect("Travis Etienne", "Running Back", "Clemson", 26));
+        prospects.add(new Prospect("Zaven Collins", "Linebacker", "Tulsa", 27));
+        prospects.add(new Prospect("Eric Stokes", "Cornerback", "Georgia", 28));
+        prospects.add(new Prospect("Asante Samuel Jr.", "Cornerback", "Florida State", 29));
+        prospects.add(new Prospect("Liam Eichenberg", "Offensive Tackle", "Notre Dame", 30));
+        prospects.add(new Prospect("Kelvin Joseph", "Cornerback", "Kentucky", 31));
+        prospects.add(new Prospect("Joe Tryon", "Defensive End", "Washington", 32));
+    }
+
+    static void initializeTeams() {
+        teams = new ArrayList<>();
+        teams.add(new Team("Jacksonville Jaguars", "Quarterback", 1));
+        teams.add(new Team("New York Jets", "Quarterback", 2));
+        teams.add(new Team("San Francisco 49ers", "Quarterback", 3));
+        teams.add(new Team("Atlanta Falcons", "Tight End", 4));
+        teams.add(new Team("Cincinnati Bengals", "Offensive Tackle", 5));
+        teams.add(new Team("Miami Dolphins", "Wide Receiver", 6));
+        teams.add(new Team("Detroit Lions", "Wide Receiver", 7));
+        teams.add(new Team("Carolina Panthers", "Quarterback", 8));
+        teams.add(new Team("Denver Broncos", "Quarterback", 9));
+        teams.add(new Team("Dallas Cowboys", "Cornerback", 10));
+        teams.add(new Team("New York Giants", "Wide Receiver", 11));
+        teams.add(new Team("Philadelphia Eagles", "Wide Receiver", 12));
+        teams.add(new Team("Los Angeles Chargers", "Offensive Tackle", 13));
+        teams.add(new Team("Minnesota Vikings", "Offensive Tackle", 14));
+        teams.add(new Team("New England Patriots", "Quarterback", 15));
+        teams.add(new Team("Arizona Cardinals", "Cornerback", 16));
+        teams.add(new Team("Las Vegas Raiders", "Offensive Tackle", 17));
+        teams.add(new Team("Miami Dolphins", "Linebacker", 18));
+        teams.add(new Team("Washington Football Team", "Linebacker", 19));
+        teams.add(new Team("Chicago Bears", "Quarterback", 20));
+        teams.add(new Team("Indianapolis Colts", "Offensive Tackle", 21));
+        teams.add(new Team("Tennessee Titans", "Wide Receiver", 22));
+        teams.add(new Team("New York Jets", "Cornerback", 23));
+        teams.add(new Team("Pittsburgh Steelers", "Running Back", 24));
+        teams.add(new Team("Jacksonville Jaguars", "Safety", 25));
+        teams.add(new Team("Cleveland Browns", "Defensive End", 26));
+        teams.add(new Team("Baltimore Ravens", "Wide Receiver", 27));
+        teams.add(new Team("New Orleans Saints", "Quarterback", 28));
+        teams.add(new Team("Green Bay Packers", "Wide Receiver", 29));
+        teams.add(new Team("Buffalo Bills", "Cornerback", 30));
+        teams.add(new Team("Kansas City Chiefs", "Offensive Tackle", 31));
+        teams.add(new Team("Tampa Bay Buccaneers", "Quarterback", 32));
+    }
+
+    static void draft() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("2021 NFL Draft Order:");
+        for (int i = 0; i < teams.size(); i++) {
+            System.out.println((i + 1) + ". " + teams.get(i).name);
+        }
+        System.out.println();
+
+        System.out.println("Please choose an NFL team:");
+        String teamName = scanner.nextLine();
+
+        Team selectedTeam = null;
+        for (Team team : teams) {
+            if (team.name.equalsIgnoreCase(teamName)) {
+                selectedTeam = team;
+                break;
+            }
+        }
+
+        if (selectedTeam == null) {
+            System.out.println("Invalid team name. Exiting...");
+            scanner.close();
+            return;
+        }
+
+        // Simulate the picks before the selected team's turn
+        List<Prospect> availableProspects = new ArrayList<>(prospects);
+        for (Team team : teams) {
+            if (team.pickNumber < selectedTeam.pickNumber) {
+                team.draftedProspect = draftProspect(team, availableProspects);
+                if (team.draftedProspect != null) {
+                    availableProspects.remove(team.draftedProspect);
+                    System.out.println(team.pickNumber + ". " + team.name + " selects " + team.draftedProspect.name + " (" + team.draftedProspect.position + " from " + team.draftedProspect.college + ")");
+                }
+            } else if (team.pickNumber == selectedTeam.pickNumber) {
+                break;
+            }
+        }
+        System.out.println();
+
+        // Show available prospects for the selected team
+        System.out.println("Available Prospects for the " + selectedTeam.name + ":");
+        for (Prospect prospect : availableProspects) {
+            System.out.println("- " + prospect.name + ", " + prospect.position + ", " + prospect.college);
+        }
+
+        System.out.print("Enter the name of the prospect you want to draft: ");
+        String prospectName = scanner.nextLine();
+
+        Prospect selectedProspect = null;
+        for (Prospect prospect : availableProspects) {
+            if (prospect.name.equalsIgnoreCase(prospectName)) {
+                selectedProspect = prospect;
+                break;
+            }
+        }
+
+        if (selectedProspect == null) {
+            System.out.println("Invalid prospect name. Exiting...");
+            scanner.close();
+            return;
+        }
+
+        selectedTeam.draftedProspect = selectedProspect;
+        System.out.println("Congratulations, you have selected " + selectedProspect.name + " from " + selectedProspect.college + "!");
+        System.out.println("Thank you for playing!");
+
+        scanner.close();
+    }
+
+    static Prospect draftProspect(Team team, List<Prospect> availableProspects) {
+        for (Prospect prospect : availableProspects) {
+            if (prospect.position.equalsIgnoreCase(team.positionNeed)) {
+                return prospect;
+            }
+        }
+        return availableProspects.isEmpty() ? null : availableProspects.get(0); // Return the first available prospect if no match found
+    }
+}
